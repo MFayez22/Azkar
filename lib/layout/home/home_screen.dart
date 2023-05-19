@@ -105,7 +105,7 @@ class HomeScreen extends StatelessWidget {
           // AzkarHomeCubit.get(context).getCurrentLocation();
           // AzkarHomeCubit.get(context).getCurrentLocation2();
           // getCurrentLocation(context: context);
-          AzkarHomeCubit.get(context).getAllAyat();
+          // AzkarHomeCubit.get(context).getAllAyat();
           AzkarHomeCubit.get(context).getDateTime();
           // if (!AzkarHomeCubit.get(context).isLast) {
           //   AzkarHomeCubit.get(context).changePage(titlePageViewController);
@@ -118,7 +118,7 @@ class HomeScreen extends StatelessWidget {
             titleIcon = 'lib/images/icons/moon.png';
             titleList = nightTitleList;
           }
-          AzkarHomeCubit.get(context).getUrlPage();
+          // AzkarHomeCubit.get(context).getUrlPage();
 
           return Scaffold(
             appBar: AppBar(
@@ -1322,9 +1322,9 @@ class HomeScreen extends StatelessWidget {
                                 child: PageView.builder(
                                   itemBuilder: (context, index) => pageViewItem(
                                       AzkarHomeCubit.get(context)
-                                          .ayatModel[index]),
+                                          .ayatList2[index]),
                                   itemCount: AzkarHomeCubit.get(context)
-                                      .ayatModel
+                                      .ayatList2
                                       .length,
                                   physics: BouncingScrollPhysics(),
                                   controller: pageViewController,
@@ -1333,33 +1333,35 @@ class HomeScreen extends StatelessWidget {
                               SizedBox(
                                 height: 5.0,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(children: [
-                                  SmoothPageIndicator(
-                                    controller: pageViewController,
-                                    count: AzkarHomeCubit.get(context)
-                                        .ayatModel
-                                        .length,
-                                    effect: ExpandingDotsEffect(
-                                      dotColor: Colors.grey,
-                                      activeDotColor: containerColor,
-                                      dotHeight: 10,
-                                      expansionFactor: 4,
-                                      dotWidth: 10,
-                                      spacing: 5,
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(children: [
+                                    SmoothPageIndicator(
+                                      controller: pageViewController,
+                                      count: AzkarHomeCubit.get(context)
+                                          .ayatList2
+                                          .length,
+                                      effect: ExpandingDotsEffect(
+                                        dotColor: Colors.grey,
+                                        activeDotColor: containerColor,
+                                        dotHeight: 10,
+                                        expansionFactor: 4,
+                                        dotWidth: 10,
+                                        spacing: 5,
+                                      ),
                                     ),
-                                  ),
-                                  Spacer(),
-                                  FloatingActionButton(
-                                    onPressed: () {
-                                      pageViewController.nextPage(
-                                          duration: Duration(milliseconds: 900),
-                                          curve: Curves.slowMiddle);
-                                    },
-                                    child: Icon(Icons.navigate_next),
-                                  )
-                                ]),
+                                    Spacer(),
+                                    FloatingActionButton(
+                                      onPressed: () {
+                                        pageViewController.nextPage(
+                                            duration: Duration(milliseconds: 900),
+                                            curve: Curves.slowMiddle);
+                                      },
+                                      child: Icon(Icons.navigate_next),
+                                    )
+                                  ]),
+                                ),
                               ),
                             ],
                           ),
@@ -1387,7 +1389,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget pageViewItem(AyatModel ayatModel) {
+  Widget pageViewItem(String ayatName) {
     return Card(
       color: container2Color,
       clipBehavior: Clip.hardEdge,
@@ -1408,7 +1410,7 @@ class HomeScreen extends StatelessWidget {
               end: 20.0, top: 10.0, bottom: 10.0, start: 10.0),
           child: Center(
             child: Text(
-              ayatModel.name!,
+              ayatName,
               textDirection: TextDirection.rtl,
               style: TextStyle(
                 color: text2Color,

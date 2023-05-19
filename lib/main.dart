@@ -13,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 Future<void> main() async {
@@ -28,7 +29,9 @@ Future<void> main() async {
 
   /// theme
 
-  getThemeData();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  int themeNum = sharedPreferences.getInt('themeData') ?? 1;
 
   /// notification
   var initializationSettingsAndroid =
@@ -51,7 +54,7 @@ Future<void> main() async {
   DioHelper.init();
   CacheHelper.init();
 
-  runApp(const MyApp());
+  runApp(MyApp(themeNum: themeNum,));
 }
 
 class DefaultFirebaseOptions {
@@ -59,7 +62,8 @@ class DefaultFirebaseOptions {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  int themeNum;
+   MyApp({Key? key, required this.themeNum}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -71,7 +75,8 @@ class MyApp extends StatelessWidget {
         ..getAllAzkarMusic()
         ..getAllAyat()
         ..getUrlPage()
-        ..getThemeData()..getThemeData(),
+        ..getThemeData()
+        ..getThemeData(),
       child: BlocConsumer<AzkarHomeCubit, AzkarState>(
         listener: (context, state) {
           // if (state is AzkarGetLocationPermissionSuccessState) {
@@ -88,7 +93,11 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Azkar',
             debugShowCheckedModeBanner: false,
-            theme: themeData,
+            theme: themeNum == 1
+                ? themeData11(context)
+                : themeNum == 2
+                    ? themeData22(context)
+                    : themeData33(context),
             home: SplashScreen(),
           );
         },

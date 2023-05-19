@@ -286,6 +286,21 @@ class AzkarHomeCubit extends Cubit<AzkarState> {
 
   List<AyatModel> ayatModel = [];
 
+
+
+
+  List<String> ayatList2 = [
+
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+    StaticVars().ayatList[Random().nextInt(StaticVars().ayatList.length - 1)],
+
+  ];
+
   void getAllAyat() {
     emit(AzkarGetAyatLoadingState());
     FirebaseFirestore.instance.collection('ayat').get().then((value) {
