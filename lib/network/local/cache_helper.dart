@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -6,12 +7,21 @@ class CacheHelper {
   {
     sharedPreferences = await SharedPreferences.getInstance();
   }
-  Future<bool?> setData({required String key , required bool value}) async
+  static Future<bool?> setData({required String key , required bool value}) async
   {
     return await sharedPreferences?.setBool(key, value);
   }
-  bool? getData({required String key})
+  static bool? getData({required String key})
   {
     return sharedPreferences?.getBool(key);
+  }
+
+  static Future setThemeData({required String key , required int value}) async
+  {
+    return await sharedPreferences?.setInt(key, value);
+  }
+  static int? getThemeData({required String key})
+  {
+    return sharedPreferences?.getInt(key);
   }
 }

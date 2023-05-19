@@ -1,3 +1,4 @@
+import 'package:azkar/conestant/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class AzkarListScreen extends StatefulWidget {
@@ -14,10 +15,11 @@ class _AzkarListScreenState extends State<AzkarListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background2Color,
         title: Text(
           widget.titleName!,
           style: TextStyle(
-            color: Colors.deepOrange,
+            color: textColor,
           ),
         ),
         leading: IconButton(
@@ -33,8 +35,8 @@ class _AzkarListScreenState extends State<AzkarListScreen> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.white,
-            Colors.orange.shade300,
+            background2Color,
+            backgroundColor,
           ],
         )),
         child: Column(
@@ -85,13 +87,13 @@ class _AzkarListScreenState extends State<AzkarListScreen> {
               padding: EdgeInsets.all(1.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(33.0),
-                  color: Colors.orange),
+                  color: containerColor),
               width: double.infinity,
               child: Align(
                 alignment: AlignmentDirectional.topCenter,
                 child: Card(
-                  color: Colors.white,
-                  shadowColor: Colors.orange,
+                  color: container2Color,
+                  shadowColor: background3Color,
                   elevation: 5.0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),
@@ -103,7 +105,7 @@ class _AzkarListScreenState extends State<AzkarListScreen> {
                           '${list[index]['wird']}',
                           textDirection: TextDirection.rtl,
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
                           ),
@@ -119,7 +121,7 @@ class _AzkarListScreenState extends State<AzkarListScreen> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: containerColor,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   width: 100,
@@ -130,7 +132,7 @@ class _AzkarListScreenState extends State<AzkarListScreen> {
                           '${list[index]['num']}',
                           textDirection: TextDirection.rtl,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: text2Color,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                           ),

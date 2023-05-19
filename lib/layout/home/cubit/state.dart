@@ -34,3 +34,11 @@ class LocationServiceEnabledState extends AzkarState {}
 
 class IsFirstTimeState extends AzkarState {}
 class IsNOtFirstTimeState extends AzkarState {}
+
+class ChangeThemesIconState extends AzkarState {}
+class ChangeThemesDataState extends AzkarState {}
+class GetThemesDataState extends AzkarState {}
+class LoadingGetThemesDataState extends AzkarState {}
+
+class SwitchValueChangeState extends AzkarState {}
+class SaveNotificationChangeState extends AzkarState {}

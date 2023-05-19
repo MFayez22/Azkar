@@ -1,3 +1,4 @@
+import 'package:azkar/conestant/themes/themes.dart';
 import 'package:azkar/layout/home/cubit/cubit.dart';
 import 'package:azkar/layout/home/cubit/state.dart';
 import 'package:azkar/lists/lists.dart';
@@ -5,6 +6,7 @@ import 'package:azkar/modules/azkarMusic_screen/azkarMusic_screen.dart';
 import 'package:azkar/modules/azkar_list/azkar_list_screen.dart';
 import 'package:azkar/modules/azkar_three/azkar_three_list_screen.dart';
 import 'package:azkar/modules/azkar_two/azkar_two_list_screen.dart';
+import 'package:azkar/modules/settings_screen/settings_screen.dart';
 import 'package:azkar/network/dio_helper/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +43,8 @@ class HomeScreen extends StatelessWidget {
         ..getAllAyat()
         ..getAllAzkarMusic()
         ..getUrlPage()
-        ..checkIsMorning(),
+        ..checkIsMorning()
+      ,
       child: BlocConsumer<AzkarHomeCubit, AzkarState>(
         listener: (context, state) {
           // if (state is AzkarGetLocationPermissionSuccessState) {
@@ -53,50 +56,50 @@ class HomeScreen extends StatelessWidget {
           //       lat: '${AzkarHomeCubit.get(context).latitude}');
           // }
 
-          if (state is IsFirstTimeState) {
-            showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                        child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Card(
-                              color: Colors.blue.shade800,
-                              clipBehavior: Clip.hardEdge,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  'يجمع هذا التطبيق بيانات الموقع لتمكين من معرفة حالة الطقس حتى في حالة إغلاق التطبيق أو عدم استخدامه ". ',
-                                  style: TextStyle(
-                                      fontSize: 20.0, color: Colors.white),
-                                ),
-                              )),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional.bottomEnd,
-                            child: MaterialButton(
-                              onPressed: () {
-                                AzkarHomeCubit.get(context).changeFirstTime();
-                                AzkarHomeCubit().getCurrentLocation2();
-                                Navigator.pop(context);
-                              },
-                              color: Colors.blue.shade800,
-                              child: Text(
-                                'موافق',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )));
-          }
+          // if (state is IsFirstTimeState) {
+          //   showDialog(
+          //       context: context,
+          //       builder: (context) => Dialog(
+          //               child: Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: Column(
+          //               mainAxisSize: MainAxisSize.min,
+          //               children: [
+          //                 Card(
+          //                     color: Colors.blue.shade800,
+          //                     clipBehavior: Clip.hardEdge,
+          //                     shape: RoundedRectangleBorder(
+          //                         borderRadius: BorderRadius.circular(10.0)),
+          //                     child: Padding(
+          //                       padding: const EdgeInsets.all(10.0),
+          //                       child: Text(
+          //                         'يجمع هذا التطبيق بيانات الموقع لتمكين من معرفة حالة الطقس حتى في حالة إغلاق التطبيق أو عدم استخدامه ". ',
+          //                         style: TextStyle(
+          //                             fontSize: 20.0, color: Colors.white),
+          //                       ),
+          //                     )),
+          //                 SizedBox(
+          //                   height: 20.0,
+          //                 ),
+          //                 Align(
+          //                   alignment: AlignmentDirectional.bottomEnd,
+          //                   child: MaterialButton(
+          //                     onPressed: () {
+          //                       AzkarHomeCubit.get(context).changeFirstTime();
+          //                       AzkarHomeCubit().getCurrentLocation2();
+          //                       Navigator.pop(context);
+          //                     },
+          //                     color: Colors.blue.shade800,
+          //                     child: Text(
+          //                       'موافق',
+          //                       style: TextStyle(color: Colors.white),
+          //                     ),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           )));
+          // }
         },
         builder: (context, state) {
           // AzkarHomeCubit.get(context).getCurrentLocation();
@@ -119,6 +122,7 @@ class HomeScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: background2Color,
               // title: Builder(
               //   builder: (context) => Padding(
               //     padding: const EdgeInsetsDirectional.only(start: 15.0),
@@ -155,8 +159,8 @@ class HomeScreen extends StatelessWidget {
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                         colors: [
-                          Colors.deepOrange,
-                          Colors.orange,
+                          backgroundColor,
+                          background3Color,
                         ]),
                   ),
                   child: Column(
@@ -180,14 +184,14 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                            color: text2Color),
                       ),
                       Text(
                         'رضيتُ بالله ربًّا، وبالإسلام دينًا، وبمحمدٍ ﷺ نبيًّا',
                         textDirection: TextDirection.rtl,
                         style: TextStyle(
                           fontSize: 16.0,
-                          color: Colors.white,
+                          color: text2Color,
                         ),
                       ),
                     ],
@@ -210,7 +214,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           'الصفحة الرئيسية',
                           style: TextStyle(
-                            color: Colors.deepOrange,
+                            color: textColor,
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -220,7 +224,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Icon(
                           Icons.home_outlined,
-                          color: Colors.deepOrange,
+                          color: containerColor,
                         ),
                       ],
                     ),
@@ -246,7 +250,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           'اذكار المساء',
                           style: TextStyle(
-                            color: Colors.deepOrange,
+                            color: textColor,
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -256,7 +260,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Icon(
                           Icons.nights_stay_outlined,
-                          color: Colors.deepOrange,
+                          color: containerColor,
                         ),
                       ],
                     ),
@@ -282,7 +286,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           'اذكار الصباح',
                           style: TextStyle(
-                            color: Colors.deepOrange,
+                            color: textColor,
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -292,7 +296,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Icon(
                           Icons.wb_sunny_outlined,
-                          color: Colors.deepOrange,
+                          color: containerColor,
                         ),
                       ],
                     ),
@@ -318,7 +322,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           'جوامع الدعاء',
                           style: TextStyle(
-                            color: Colors.deepOrange,
+                            color: textColor,
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -328,7 +332,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Icon(
                           Icons.mosque_outlined,
-                          color: Colors.deepOrange,
+                          color: containerColor,
                         ),
                       ],
                     ),
@@ -339,11 +343,41 @@ class HomeScreen extends StatelessWidget {
                   child: Container(
                     height: 1,
                     width: double.infinity,
-                    color: Colors.deepOrange[100],
+                    color: container3Color,
                   ),
                 ),
                 SizedBox(
                   height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsScreen()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'الإعدادات',
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Icon(
+                          Icons.settings,
+                          color: containerColor,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -386,8 +420,8 @@ class HomeScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.white,
-                  Colors.orange.shade200,
+                  background2Color,
+                  backgroundColor,
                 ],
               )),
               child: SingleChildScrollView(
@@ -399,12 +433,14 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+
+
                         // weather
                         Container(
                           width: double.infinity,
                           child: Card(
                             clipBehavior: Clip.hardEdge,
-                            color: Colors.white,
+                            color: container2Color,
                             elevation: 5.0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0)),
@@ -599,7 +635,7 @@ class HomeScreen extends StatelessWidget {
                                 height: 150,
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(30.0),
-                                  splashColor: Colors.orange,
+                                  splashColor: containerColor,
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -621,8 +657,8 @@ class HomeScreen extends StatelessWidget {
                                           alignment:
                                               AlignmentDirectional.bottomCenter,
                                           child: Card(
-                                            color: Colors.white,
-                                            shadowColor: Colors.orange,
+                                            color: container2Color,
+                                            shadowColor: containerColor,
                                             elevation: 5.0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -638,7 +674,7 @@ class HomeScreen extends StatelessWidget {
                                                   child: Text(
                                                     'اذكار المساء',
                                                     style: TextStyle(
-                                                      color: Colors.orange,
+                                                      color: textColor,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20.0,
@@ -652,7 +688,7 @@ class HomeScreen extends StatelessWidget {
                                         alignment:
                                             AlignmentDirectional.topCenter,
                                         child: CircleAvatar(
-                                            backgroundColor: Colors.orange,
+                                            backgroundColor:containerColor,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -677,7 +713,7 @@ class HomeScreen extends StatelessWidget {
                                 height: 150,
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(30.0),
-                                  splashColor: Colors.orange,
+                                  splashColor: backgroundColor,
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -699,8 +735,8 @@ class HomeScreen extends StatelessWidget {
                                           alignment:
                                               AlignmentDirectional.bottomCenter,
                                           child: Card(
-                                            color: Colors.white,
-                                            shadowColor: Colors.orange,
+                                            color: container2Color,
+                                            shadowColor: backgroundColor,
                                             elevation: 5.0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -716,7 +752,7 @@ class HomeScreen extends StatelessWidget {
                                                   child: Text(
                                                     'اذكار الصباح',
                                                     style: TextStyle(
-                                                      color: Colors.orange,
+                                                      color: textColor,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20.0,
@@ -730,7 +766,7 @@ class HomeScreen extends StatelessWidget {
                                         alignment:
                                             AlignmentDirectional.topCenter,
                                         child: CircleAvatar(
-                                            backgroundColor: Colors.orange,
+                                            backgroundColor: containerColor,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -754,7 +790,7 @@ class HomeScreen extends StatelessWidget {
 
                         InkWell(
                           borderRadius: BorderRadius.circular(30.0),
-                          splashColor: Colors.orange,
+                          splashColor: backgroundColor,
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -776,7 +812,7 @@ class HomeScreen extends StatelessWidget {
                                     alignment:
                                         AlignmentDirectional.bottomCenter,
                                     child: Card(
-                                      color: Colors.orange,
+                                      color: containerColor,
                                       elevation: 5.0,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -790,7 +826,7 @@ class HomeScreen extends StatelessWidget {
                                             child: Text(
                                               'جوامع الدعاء',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: text2Color,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20.0,
                                               ),
@@ -803,9 +839,9 @@ class HomeScreen extends StatelessWidget {
                                   alignment: AlignmentDirectional.topCenter,
                                   child: CircleAvatar(
                                     radius: 43.0,
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: background2Color,
                                     child: CircleAvatar(
-                                        backgroundColor: Colors.orange,
+                                        backgroundColor: containerColor,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image.asset(
@@ -826,12 +862,14 @@ class HomeScreen extends StatelessWidget {
 
                         // list 2 of azkar
 
+
                         Row(
                           children: [
+                            // اذكار المسجد
                             Expanded(
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(30.0),
-                                splashColor: Colors.orange,
+                                splashColor: backgroundColor,
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -855,8 +893,8 @@ class HomeScreen extends StatelessWidget {
                                           alignment:
                                               AlignmentDirectional.bottomCenter,
                                           child: Card(
-                                            color: Colors.white,
-                                            shadowColor: Colors.orange,
+                                            color: container2Color,
+                                            shadowColor: backgroundColor,
                                             elevation: 5.0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -872,7 +910,7 @@ class HomeScreen extends StatelessWidget {
                                                   child: Text(
                                                     'اذكار المسجد',
                                                     style: TextStyle(
-                                                      color: Colors.orange,
+                                                      color: textColor,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20.0,
@@ -886,7 +924,7 @@ class HomeScreen extends StatelessWidget {
                                         alignment:
                                             AlignmentDirectional.topCenter,
                                         child: CircleAvatar(
-                                            backgroundColor: Colors.orange,
+                                            backgroundColor: containerColor,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -909,7 +947,7 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(30.0),
-                                splashColor: Colors.orange,
+                                splashColor: backgroundColor,
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -933,8 +971,8 @@ class HomeScreen extends StatelessWidget {
                                           alignment:
                                               AlignmentDirectional.bottomCenter,
                                           child: Card(
-                                            color: Colors.white,
-                                            shadowColor: Colors.orange,
+                                            color: container2Color,
+                                            shadowColor: backgroundColor,
                                             elevation: 5.0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -950,7 +988,7 @@ class HomeScreen extends StatelessWidget {
                                                   child: Text(
                                                     'تسابيح',
                                                     style: TextStyle(
-                                                      color: Colors.orange,
+                                                      color: textColor,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20.0,
@@ -964,7 +1002,7 @@ class HomeScreen extends StatelessWidget {
                                         alignment:
                                             AlignmentDirectional.topCenter,
                                         child: CircleAvatar(
-                                            backgroundColor: Colors.orange,
+                                            backgroundColor: containerColor,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -982,9 +1020,11 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 10),
+
+                        // الاذكار صوت
                         InkWell(
                           borderRadius: BorderRadius.circular(30.0),
-                          splashColor: Colors.orange,
+                          splashColor: backgroundColor,
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -1007,7 +1047,7 @@ class HomeScreen extends StatelessWidget {
                                     alignment:
                                         AlignmentDirectional.bottomCenter,
                                     child: Card(
-                                      color: Colors.orange,
+                                      color: containerColor,
                                       elevation: 5.0,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -1021,7 +1061,7 @@ class HomeScreen extends StatelessWidget {
                                             child: Text(
                                               'الاذكار صوت',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: text2Color,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20.0,
                                               ),
@@ -1034,9 +1074,9 @@ class HomeScreen extends StatelessWidget {
                                   alignment: AlignmentDirectional.topCenter,
                                   child: CircleAvatar(
                                     radius: 43.0,
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: container2Color,
                                     child: CircleAvatar(
-                                        backgroundColor: Colors.orange,
+                                        backgroundColor: containerColor,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image.asset(
@@ -1059,7 +1099,7 @@ class HomeScreen extends StatelessWidget {
                           padding: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30.0),
-                              color: Colors.white),
+                              color: container2Color),
                           child: Column(
                             children: [
                               Padding(
@@ -1069,7 +1109,7 @@ class HomeScreen extends StatelessWidget {
                                   children: [
                                     CircleAvatar(
                                       radius: 27.0,
-                                      backgroundColor: Colors.white,
+                                      backgroundColor: container2Color,
                                       child: CircleAvatar(
                                         radius: 25.0,
                                         child: Image.asset(
@@ -1081,7 +1121,7 @@ class HomeScreen extends StatelessWidget {
                                         'المسبحة الالكترونية',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
-                                          color: Colors.deepOrange,
+                                          color: textColor,
                                           fontWeight: FontWeight.w900,
                                           fontSize: 20.0,
                                         ),
@@ -1106,8 +1146,8 @@ class HomeScreen extends StatelessWidget {
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                           colors: [
-                                            Colors.orange.shade400,
-                                            Colors.white,
+                                            background3Color,
+                                            background2Color,
                                           ]),
                                     ),
                                     child: Padding(
@@ -1129,11 +1169,11 @@ class HomeScreen extends StatelessWidget {
                                                         BorderRadius.circular(
                                                             20.0),
                                                   ),
-                                                  color: Colors.deepOrange,
+                                                  color: containerColor,
                                                   child: Text(
                                                     'الله اكبر ',
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: text2Color,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -1151,11 +1191,11 @@ class HomeScreen extends StatelessWidget {
                                                         BorderRadius.circular(
                                                             20.0),
                                                   ),
-                                                  color: Colors.deepOrange,
+                                                  color: containerColor,
                                                   child: Text(
                                                     ' سبحان الله',
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: text2Color,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -1173,11 +1213,11 @@ class HomeScreen extends StatelessWidget {
                                                         BorderRadius.circular(
                                                             20.0),
                                                   ),
-                                                  color: Colors.deepOrange,
+                                                  color:containerColor,
                                                   child: Text(
                                                     'الحمد لله',
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: text2Color,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -1189,13 +1229,13 @@ class HomeScreen extends StatelessWidget {
                                           Expanded(
                                             child: CircleAvatar(
                                               radius: 33.0,
-                                              backgroundColor: Colors.white,
+                                              backgroundColor: container2Color,
                                               child: CircleAvatar(
                                                 radius: 30.0,
                                                 child: Text(
                                                   '${AzkarHomeCubit.get(context).numTW}',
                                                   style: TextStyle(
-                                                    color: Colors.white,
+                                                    color: text2Color,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -1214,13 +1254,13 @@ class HomeScreen extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(20.0),
                                               ),
-                                              color: Colors.deepOrange,
+                                              color: containerColor,
                                               child: Text(
                                                   '${AzkarHomeCubit.get(context).nameTW}',
                                                   textDirection:
                                                       TextDirection.rtl,
                                                   style: TextStyle(
-                                                    color: Colors.white,
+                                                    color: text2Color,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 20.0,
                                                   )),
@@ -1256,7 +1296,7 @@ class HomeScreen extends StatelessWidget {
                                         'بلغوا عني ولو آية',
                                         textDirection: TextDirection.ltr,
                                         style: TextStyle(
-                                          color: Colors.deepOrange,
+                                          color: textColor,
                                           fontWeight: FontWeight.w900,
                                           fontSize: 20.0,
                                         ),
@@ -1264,7 +1304,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     CircleAvatar(
                                       radius: 27.0,
-                                      backgroundColor: Colors.white,
+                                      backgroundColor: container2Color,
                                       child: CircleAvatar(
                                         radius: 25.0,
                                         child: Image.asset(
@@ -1303,7 +1343,7 @@ class HomeScreen extends StatelessWidget {
                                         .length,
                                     effect: ExpandingDotsEffect(
                                       dotColor: Colors.grey,
-                                      activeDotColor: Colors.deepOrange,
+                                      activeDotColor: containerColor,
                                       dotHeight: 10,
                                       expansionFactor: 4,
                                       dotWidth: 10,
@@ -1349,6 +1389,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget pageViewItem(AyatModel ayatModel) {
     return Card(
+      color: container2Color,
       clipBehavior: Clip.hardEdge,
       elevation: 3.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -1358,8 +1399,8 @@ class HomeScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.orange,
-                Colors.deepOrange,
+                container3Color,
+                containerColor,
               ]),
         ),
         child: Padding(
@@ -1370,7 +1411,7 @@ class HomeScreen extends StatelessWidget {
               ayatModel.name!,
               textDirection: TextDirection.rtl,
               style: TextStyle(
-                color: Colors.white,
+                color: text2Color,
                 fontSize: 22.0,
                 fontWeight: FontWeight.bold,
               ),

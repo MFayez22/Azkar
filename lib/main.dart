@@ -1,20 +1,56 @@
+import 'dart:math';
+
+import 'package:azkar/conestant/colors/colors.dart';
+import 'package:azkar/conestant/staticVar.dart';
+import 'package:azkar/conestant/themes/themes.dart';
 import 'package:azkar/layout/home/cubit/cubit.dart';
 import 'package:azkar/layout/home/cubit/state.dart';
 import 'package:azkar/layout/home/home_screen.dart';
+import 'package:azkar/modules/splash_screen/splash_screen.dart';
 import 'package:azkar/network/dio_helper/dio_helper.dart';
 import 'package:azkar/network/local/cache_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:workmanager/workmanager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+
+  Workmanager().registerOneOffTask("task-identifier", "simpleTask");
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  /// theme
+
+  getThemeData();
+
+  /// notification
+  var initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  var initializationSettingsIOS = IOSInitializationSettings();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  var initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+  );
+
+  /// notification end
   // Bloc.observer = MyBlocObserver();
   DioHelper.init();
   CacheHelper.init();
+
   runApp(const MyApp());
 }
 
@@ -34,7 +70,8 @@ class MyApp extends StatelessWidget {
         ..checkIsFirstTime()
         ..getAllAzkarMusic()
         ..getAllAyat()
-        ..getUrlPage(),
+        ..getUrlPage()
+        ..getThemeData()..getThemeData(),
       child: BlocConsumer<AzkarHomeCubit, AzkarState>(
         listener: (context, state) {
           // if (state is AzkarGetLocationPermissionSuccessState) {
@@ -49,31 +86,95 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           // AzkarHomeCubit.get(context).getCurrentLocation();
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Azkar',
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              // This is the theme of your application.
-              //
-              // Try running your application with "flutter run". You'll see the
-              // application has a blue toolbar. Then, without quitting the app, try
-              // changing the primarySwatch below to Colors.green and then invoke
-              // "hot reload" (press "r" in the console where you ran "flutter run",
-              // or simply save your changes to "hot reload" in a Flutter IDE).
-              // Notice that the counter didn't reset back to zero; the application
-              // is not restarted.
-              primarySwatch: Colors.deepOrange,
-              appBarTheme: AppBarTheme(
-                color: Colors.white,
-                elevation: 0.0,
-                iconTheme: IconThemeData(color: Colors.deepOrange),
-                titleSpacing: 0.0,
-              ),
-              scaffoldBackgroundColor: Colors.white,
-            ),
-            home: HomeScreen(),
+            theme: themeData,
+            home: SplashScreen(),
           );
         },
       ),
     );
+  }
+}
+
+Future<void> callbackDispatcher() async {
+  Workmanager().executeTask((task, inputData) {
+    showNotification();
+    return Future.value(true);
+  });
+}
+
+Future showNotification() async {
+  int randomIndex = Random().nextInt(StaticVars().smallDo3a2.length - 1);
+
+  AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    '1.0',
+    'Azkar',
+    'تطبيق اذكار وادعية ',
+    importance: Importance.max,
+    priority: Priority.high,
+    playSound: true,
+    enableVibration: true,
+  );
+  var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+    threadIdentifier: 'thread_id',
+  );
+  var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics);
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  await flutterLocalNotificationsPlugin.show(
+    1,
+    'فَذَكِّرْ',
+    StaticVars().smallDo3a2[randomIndex],
+    platformChannelSpecifics,
+  );
+}
+
+/// theme
+
+Future<void> getThemeData() async {
+  if (CacheHelper.getThemeData(key: 'themeData') == 1) {
+    backgroundColor = theme0Color1;
+    background2Color = theme0Color4;
+    background3Color = theme0Color2;
+    containerColor = theme0Color1;
+    container2Color = theme0Color4;
+    container3Color = theme0Color2;
+    textColor = theme0Color1;
+    text2Color = theme0Color4;
+    text3Color = theme0Color2;
+
+    themeData = themeData1;
+  }
+  if (CacheHelper.getThemeData(key: 'themeData') == 2) {
+    backgroundColor = theme1Color1;
+    background2Color = theme1Color4;
+    background3Color = theme1Color2;
+    containerColor = theme1Color1;
+    container2Color = theme1Color4;
+    container3Color = theme1Color2;
+    textColor = theme1Color1;
+    text2Color = theme1Color4;
+    text3Color = theme1Color2;
+
+    themeData = themeData2;
+  }
+
+  if (CacheHelper.getThemeData(key: 'themeData') == 3) {
+    backgroundColor = theme2Color1;
+    background2Color = theme2Color4;
+    background3Color = theme2Color2;
+    containerColor = theme2Color1;
+    container2Color = theme2Color4;
+    container3Color = theme2Color2;
+    textColor = theme2Color1;
+    text2Color = theme2Color4;
+    text3Color = theme2Color2;
+
+    themeData = themeData3;
   }
 }

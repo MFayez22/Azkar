@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'package:azkar/conestant/colors/colors.dart';
+import 'package:azkar/conestant/themes/themes.dart';
 import 'package:azkar/layout/home/cubit/state.dart';
 import 'package:azkar/models/urlPage_model.dart';
 import 'package:azkar/network/dio_helper/dio_helper.dart';
@@ -6,14 +9,20 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:workmanager/workmanager.dart';
 
+import '../../../conestant/staticVar.dart';
 import '../../../conestant/weather_screen.dart';
 import '../../../models/ayat_model.dart';
 import '../../../models/azkar_music_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class AzkarHomeCubit extends Cubit<AzkarState> {
   AzkarHomeCubit() : super(AzkarInitialState());
@@ -30,35 +39,30 @@ class AzkarHomeCubit extends Cubit<AzkarState> {
   String temp = '';
   String weatherIconCode = '';
 
-
-
   void changeFirstTime() {
-    CacheHelper().setData(key: 'isFirstTime', value: false).then((value) {
+    CacheHelper.setData(key: 'isFirstTime', value: false).then((value) {
       emit(IsNOtFirstTimeState());
     });
   }
 
   void checkIsFirstTime() {
-    if (CacheHelper().getData(key: 'isFirstTime') == null) {
-      CacheHelper().setData(key: 'isFirstTime', value: true).then((value) {
+    if (CacheHelper.getData(key: 'isFirstTime') == null) {
+      CacheHelper.setData(key: 'isFirstTime', value: true).then((value) {
         emit(IsFirstTimeState());
         print('null IsFirstTimeState');
       });
-
     }
-    if (CacheHelper().getData(key: 'isFirstTime') == true) {
-      CacheHelper().setData(key: 'isFirstTime', value: true).then((value) {
+    if (CacheHelper.getData(key: 'isFirstTime') == true) {
+      CacheHelper.setData(key: 'isFirstTime', value: true).then((value) {
         emit(IsFirstTimeState());
         print('IsFirstTimeState');
       });
-
     }
-    if (CacheHelper().getData(key: 'isFirstTime') == false) {
-      CacheHelper().setData(key: 'isFirstTime', value: false).then((value) {
+    if (CacheHelper.getData(key: 'isFirstTime') == false) {
+      CacheHelper.setData(key: 'isFirstTime', value: false).then((value) {
         emit(IsNOtFirstTimeState());
         print('IsNOtFirstTimeState');
       });
-
     }
   }
 
@@ -371,5 +375,327 @@ class AzkarHomeCubit extends Cubit<AzkarState> {
         enableJavaScript: true,
       );
     }
+  }
+
+  bool isChoose1 = false;
+  bool isChoose2 = false;
+  bool isChoose3 = false;
+
+  int numThemeData = 0;
+
+  void changeThemesIcon({required int numTheme}) {
+    switch (numTheme) {
+      case 1:
+        {
+          isChoose1 = !isChoose1;
+          isChoose2 = false;
+          isChoose3 = false;
+          numThemeData = 1;
+        }
+        break;
+      case 2:
+        {
+          isChoose2 = !isChoose2;
+          isChoose1 = false;
+          isChoose3 = false;
+          numThemeData = 2;
+        }
+        break;
+      case 3:
+        {
+          isChoose3 = !isChoose3;
+          isChoose2 = false;
+          isChoose1 = false;
+          numThemeData = 3;
+        }
+        break;
+    }
+    emit(ChangeThemesIconState());
+  }
+
+  void setTheme() {
+    switch (numThemeData) {
+      case 1:
+        {
+          CacheHelper.setThemeData(key: 'themeData', value: 1).then((value) {
+            emit(ChangeThemesDataState());
+          });
+        }
+        break;
+      case 2:
+        {
+          CacheHelper.setThemeData(key: 'themeData', value: 2).then((value) {
+            emit(ChangeThemesDataState());
+          });
+        }
+        break;
+      case 3:
+        {
+          CacheHelper.setThemeData(key: 'themeData', value: 3).then((value) {
+            emit(ChangeThemesDataState());
+          });
+        }
+        break;
+    }
+  }
+
+  int num = CacheHelper.getThemeData(key: 'themeData') ?? 1;
+
+  Future<void> getThemeData() async {
+    emit(LoadingGetThemesDataState());
+
+    if (num == 1) {
+      backgroundColor = theme0Color1;
+      background2Color = theme0Color4;
+      background3Color = theme0Color2;
+      containerColor = theme0Color1;
+      container2Color = theme0Color4;
+      container3Color = theme0Color2;
+      textColor = theme0Color1;
+      text2Color = theme0Color4;
+      text3Color = theme0Color2;
+
+      themeData = themeData1;
+      await Future.delayed(Duration(seconds: 5));
+      emit(GetThemesDataState());
+    }
+    if (num == 2) {
+      backgroundColor = theme1Color1;
+      background2Color = theme1Color4;
+      background3Color = theme1Color2;
+      containerColor = theme1Color1;
+      container2Color = theme1Color4;
+      container3Color = theme1Color2;
+      textColor = theme1Color1;
+      text2Color = theme1Color4;
+      text3Color = theme1Color2;
+
+      themeData = themeData2;
+      await Future.delayed(Duration(seconds: 5));
+      emit(GetThemesDataState());
+    }
+
+    if (num == 3) {
+      backgroundColor = theme2Color1;
+      background2Color = theme2Color4;
+      background3Color = theme2Color2;
+      containerColor = theme2Color1;
+      container2Color = theme2Color4;
+      container3Color = theme2Color2;
+      textColor = theme2Color1;
+      text2Color = theme2Color4;
+      text3Color = theme2Color2;
+
+      themeData = themeData3;
+      await Future.delayed(Duration(seconds: 5));
+      emit(GetThemesDataState());
+    }
+  }
+
+  /// notification
+
+  bool switchValue1 = CacheHelper.getData(key: 'switchValue1') ?? false;
+  bool switchValue2 = CacheHelper.getData(key: 'switchValue2') ?? false;
+
+  void changeSwitchValue1() {
+    switchValue1 = !switchValue1;
+    emit(SwitchValueChangeState());
+  }
+
+  void changeSwitchValue2() {
+    switchValue2 = !switchValue2;
+    emit(SwitchValueChangeState());
+  }
+
+  void saveNotificationChange() async {
+    if (switchValue1) {
+      showNotification1();
+      CacheHelper.setData(key: 'switchValue1', value: true);
+    } else {
+      Workmanager().cancelByTag("Azkar_note");
+      CacheHelper.setData(key: 'switchValue1', value: false);
+    }
+
+    if (switchValue2) {
+      showMooringNotificationSchedule();
+      showNightNotificationSchedule();
+      CacheHelper.setData(key: 'switchValue2', value: true);
+    } else {
+      await flutterLocalNotificationsPlugin.cancel(405);
+      CacheHelper.setData(key: 'switchValue2', value: false);
+    }
+
+    emit(SaveNotificationChangeState());
+  }
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  Future showNotification() async {
+    int randomIndex = Random().nextInt(StaticVars().smallDo3a2.length - 1);
+
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      '1.0',
+      'Azkar',
+      'تطبيق اذكار وادعية ',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+      threadIdentifier: 'thread_id',
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      randomIndex,
+      'فَذَكِّرْ',
+      StaticVars().smallDo3a2[randomIndex],
+      platformChannelSpecifics,
+    );
+  }
+
+  Future showMooringNotificationSchedule() async {
+    tz.initializeTimeZones();
+    flutterLocalNotificationsPlugin.cancel(404);
+
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      '1.0',
+      'Azkar',
+      'تطبيق اذكار وادعية ',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+      threadIdentifier: 'thread_id',
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     404,
+    //     'Azkar',
+    //     'حان الآن موعد أذكار الصباح',
+    //     scheduleDaily(),
+    //     platformChannelSpecifics,
+    //     uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+    //         .absoluteTime
+    //     , androidAllowWhileIdle: true);
+
+    flutterLocalNotificationsPlugin.showDailyAtTime(
+        404,
+        'Azkar',
+        'حان الآن موعد أذكار الصباح',
+        Time(5, 00, 00),
+        platformChannelSpecifics);
+  }
+
+  Future showNightNotificationSchedule() async {
+    tz.initializeTimeZones();
+    // await flutterLocalNotificationsPlugin.cancel(404);
+    flutterLocalNotificationsPlugin.cancel(405);
+
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      '1.0',
+      'Azkar',
+      'تطبيق اذكار وادعية ',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+      threadIdentifier: 'thread_id',
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     405,
+    //     'Azkar',
+    //     'حان الآن موعد أذكار المساء',
+    //     scheduleDaily2(),
+    //     platformChannelSpecifics,
+    //     uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+    //         .absoluteTime
+    //     , androidAllowWhileIdle: true);
+    flutterLocalNotificationsPlugin.showDailyAtTime(
+        405,
+        'Azkar',
+        'حان الآن موعد أذكار المساء',
+        Time(18, 00, 00),
+        platformChannelSpecifics);
+
+    // emit(SaveNotificationChangeState());
+  }
+
+  static tz.TZDateTime scheduleDaily() {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 5);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  static tz.TZDateTime scheduleDaily2() {
+    final now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate2 =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 18);
+    if (scheduledDate2.isBefore(now)) {
+      scheduledDate2 = scheduledDate2.add(const Duration(days: 1));
+    }
+    return scheduledDate2;
+  }
+
+  void callbackDispatcher() {
+    // initial notifications
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = IOSInitializationSettings();
+
+    var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    WidgetsFlutterBinding.ensureInitialized();
+
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
+
+    Workmanager().executeTask((task, inputData) {
+      showNotification();
+      return Future.value(true);
+    });
+  }
+
+  Future workManagerInit() async {
+    Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+  }
+
+  void showNotification1() {
+    Workmanager().cancelByTag("Azkar_note");
+
+    Workmanager().registerPeriodicTask(
+      "1",
+      "periodic Notification 22",
+      tag: "Azkar_note",
+      frequency: Duration(hours: 1),
+    );
   }
 }

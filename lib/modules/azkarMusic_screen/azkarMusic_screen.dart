@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:azkar/conestant/themes/themes.dart';
 import 'package:azkar/models/azkar_music_model.dart';
 import 'package:flutter/material.dart';
 
@@ -53,9 +54,10 @@ class _AudioPlayersScreenState extends State<AudioPlayersScreen> {
     });
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background2Color,
         title: Text(
           widget.titleName!,
-          style: TextStyle(color: Colors.orange),
+          style: TextStyle(color: textColor),
         ),
       ),
       body: Padding(
@@ -65,8 +67,8 @@ class _AudioPlayersScreenState extends State<AudioPlayersScreen> {
           child: Column(
             children: [
               Card(
-                color: Colors.white,
-                shadowColor: Colors.orange,
+                color: container2Color,
+                shadowColor: backgroundColor,
                 elevation: 5.0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
@@ -75,13 +77,13 @@ class _AudioPlayersScreenState extends State<AudioPlayersScreen> {
                   child: Column(children: [
                     Text(
                       name,
-                      style: TextStyle(color: Colors.orange),
+                      style: TextStyle(color: text3Color),
                     ),
                     SizedBox(
                       height: 5.0,
                     ),
                     Card(
-                      color: Colors.white,
+                      color: container2Color,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
@@ -229,8 +231,8 @@ class _AudioPlayersScreenState extends State<AudioPlayersScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
-          color: Colors.white,
-          shadowColor: Colors.orange,
+          color: container2Color,
+          shadowColor: backgroundColor,
           elevation: 5.0,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -238,7 +240,7 @@ class _AudioPlayersScreenState extends State<AudioPlayersScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Row(children: [
               Card(
-                color: Colors.white,
+                color: container2Color,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(
@@ -253,7 +255,7 @@ class _AudioPlayersScreenState extends State<AudioPlayersScreen> {
               Text(
                 '${list[index].name}',
                 style: TextStyle(
-                    color: Colors.orange,
+                    color: text3Color,
                     fontSize: 20,
                     overflow: TextOverflow.ellipsis),
               ),
