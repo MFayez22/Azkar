@@ -317,7 +317,7 @@ class AzkarHomeCubit extends Cubit<AzkarState> {
 
   List<AzkarMusicModel> azkarMusicList = [];
 
-  void getAllAzkarMusic() {
+  Future<void> getAllAzkarMusic() async {
     FirebaseFirestore.instance
         .collection('azkarMusicList')
         .orderBy('id')

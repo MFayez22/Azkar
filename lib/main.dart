@@ -21,7 +21,7 @@ Future<void> main() async {
 
   Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
 
-  Workmanager().registerOneOffTask("task-identifier", "simpleTask");
+  // Workmanager().registerOneOffTask("task-identifier", "simpleTask");
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
